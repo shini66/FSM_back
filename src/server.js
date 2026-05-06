@@ -4,5 +4,5 @@ import { env } from './config/env.js';
 const PORT = env.PORT;
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
