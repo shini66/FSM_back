@@ -1,23 +1,29 @@
 import { body, param, validationResult } from "express-validator";
 
-const userValidationRules = [
-    body("name").isString().withMessage("El nombre debe ser una cadena de texto"),
-    body("email").isEmail().withMessage("El correo electrónico no es válido"),
-    body("password").isLength({ min: 6 }).withMessage("La contraseña debe tener al menos 6 caracteres"),
-    param("id").custom((value, { req }) => {
-        // En PUT el id es obligatorio; en otras peticiones es opcional pero si viene debe ser entero
-        if (req.method === "PUT") {
-        if (value === undefined || value === null || value === "") {
-            throw new Error("El ID es obligatorio para peticiones PUT");
-        }
-        }
-        if (value !== undefined && value !== null && value !== "") {
-        if (!Number.isInteger(Number(value))) {
-            throw new Error("El ID debe ser un número entero");
-        }
-        }
-        return true;
-    }),
+const userRules = [
+
+    body("name")
+        .trim()
+        .notEmpty().withMessage("El nombre es obligatorio")
+        .isLength({ min: 3 }).withMessage("El nombre debe tener al menos 3 caracteres")
+        .isString().withMessage("El nombre debe ser una cadena de texto"),
+
+    body("email")
+        .trim()
+        .notEmpty().withMessage("El correo electrónico es obligatorio")
+        .isEmail().withMessage("El correo electrónico no es válido")
+        .normalizeEmail(),
+
+
+    body("password")
+        .notEmpty().withMessage("La contraseña es obligatoria")
+        .isLength({ min: 6 }).withMessage("La contraseña debe tener al menos 6 caracteres"),
+];
+
+const idRules = [
+    param("id")
+        .notEmpty().withMessage("El ID es obligatorio")
+        .isInt({ gt: 0 }).withMessage("El ID debe ser un número entero positivo"),
 ];
 
 function checkValidation(req, res, next) {
@@ -28,4 +34,4 @@ function checkValidation(req, res, next) {
     next();
 }
 
-export { checkValidation, userValidationRules };
+export { checkValidation, userRules, idRules };
