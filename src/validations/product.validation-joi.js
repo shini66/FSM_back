@@ -1,18 +1,19 @@
 import Joi from "joi";
 
-const userRules = Joi.object({
+const productRules = Joi.object({
   name: Joi.string().min(3).required().messages({
     "string.empty": "El nombre es obligatorio",
     "string.min": "El nombre debe tener al menos 3 caracteres",
     "string.base": "El nombre debe ser una cadena de texto",
   }),
-  email: Joi.string().email().required().messages({
-    "string.empty": "El correo electrónico es obligatorio",
-    "string.email": "El correo electrónico no es válido",
+  price: Joi.number().positive().required().messages({
+    "number.base": "El precio debe ser un número",
+    "number.positive": "El precio debe ser un número positivo",
+    "any.required": "El precio es obligatorio",
   }),
-  password: Joi.string().min(6).required().messages({
-    "string.empty": "La contraseña es obligatoria",
-    "string.min": "La contraseña debe tener al menos 6 caracteres",
+  category: Joi.string().min(5).required().messages({
+    "string.empty": "La categoría es obligatoria",
+    "string.min": "La categoría debe tener al menos 5 caracteres",
   }),
 });
 
@@ -29,7 +30,7 @@ function checkValidation(schemas) {
   return (req, res, next) => {
     const schemaList = Array.isArray(schemas)
       ? schemas
-      : [schemas || userRules];
+      : [schemas || productRules];
     const errors = [];
 
     for (const schema of schemaList) {
@@ -59,4 +60,4 @@ function checkValidation(schemas) {
   };
 }
 
-export { checkValidation, idRules, userRules };
+export { checkValidation, idRules, productRules };

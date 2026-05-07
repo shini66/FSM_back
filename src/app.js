@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import routerUser from "./routers/user.routes.js";
+import routerProduct from "./routers/product.routes.js";
 
 const app = express();
 
@@ -9,11 +10,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} (${req.path}) URL: ${req.url} - Body: `);
+    console.log(`[${new Date().toISOString()}] ${req.method} (${req.path}) URL: ${req.url} - Body: ${JSON.stringify(req.body)}`);
     next();
 });
 
 app.use("/api/users", routerUser);
+app.use("/api/products", routerProduct);
 
 app.use((req, res) => {
     res.status(404).json({ success: false, error: "Recurso no encontrado" });
