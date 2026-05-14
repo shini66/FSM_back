@@ -1,13 +1,8 @@
 import * as productRepo from '../repositories/product.repository.js';
 
-let products = [
-    { id: 1, name: "Laptop", price: "$10", category: "Electronics" },
-    { id: 2, name: "Book", price: "$20", category: "Books" },
-];
-
-function generateId() {
-    return products.length > 0 ? Math.max(...products.map((product) => product.id)) + 1 : 1;
-}
+//function generateId() {
+//    return products.length > 0 ? Math.max(...products.map((product) => product.id)) + 1 : 1;
+//}
 
 function assignPrice(product) {
     if (!product || product.price === undefined || product.price === null) return;
@@ -35,36 +30,27 @@ function assignPrice(product) {
 }
 
 export const getProducts = async () => {
-    return products;
+    return await productRepo.getProducts();
 };
 
 export const createProduct = async (productData) => {
-    const newProduct = { ...productData, id: generateId() };
+    const newProduct = await productRepo.createProduct(productData);
     assignPrice(newProduct);
-    products.push(newProduct);
     return newProduct;
 };
 
 export const getProductById = async (id) => {
-    const index = products.findIndex((product) => product.id === parseInt(id));
-    return index !== -1 ? products[index] : null;
+    return await productRepo.getProductById(id);
 };
 
 export const updateProduct = async (id, productData) => {
-    const index = products.findIndex((product) => product.id === parseInt(id));
-    if (index !== -1) {
-        products[index] = { ...products[index], ...productData };
-        assignPrice(products[index]);
-        return products[index];
+    const updatedProduct = await productRepo.updateProduct(id, productData);
+    if (updatedProduct) {
+        assignPrice(updatedProduct);
     }
-    return null;
+    return updatedProduct;
 };
 
 export const deleteProduct = async (id) => {
-    const index = products.findIndex((product) => product.id === parseInt(id));
-    if (index !== -1) {
-        products.splice(index, 1);
-        return true;
-    }
-    return false;
+    return await productRepo.deleteProduct(id);
 };

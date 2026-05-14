@@ -13,20 +13,19 @@ const productRules = [
     .withMessage("El precio es obligatorio")
     .isFloat({ gt: 0 })
     .withMessage("El precio debe ser un número positivo"),
-  body("category")
+  body("description")
     .exists({ checkFalsy: true })
-    .withMessage("La categoría es obligatoria")
+    .withMessage("La descripción es obligatoria")
     .isString()
-    .withMessage("La categoría debe ser una cadena de texto")
-    .isLength({ min: 5 })
-    .withMessage("La categoría debe tener al menos 5 caracteres"),
+    .withMessage("La descripción debe ser una cadena de texto")
+    .isLength({ min: 10 })
+    .withMessage("La descripción debe tener al menos 10 caracteres"),
 ];
 
 const idRules = [
   param("id")
     .exists({ checkFalsy: true })
     .withMessage("El ID es obligatorio")
-    .isInt({ gt: 0 })
     .withMessage("El ID debe ser un número entero positivo"),
 ];
 
