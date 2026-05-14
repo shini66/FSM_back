@@ -1,4 +1,4 @@
-//import * as userRepo from '../repositories/user.repository.js';
+import * as productRepo from '../repositories/product.repository.js';
 
 let products = [
     { id: 1, name: "Laptop", price: "$10", category: "Electronics" },
