@@ -2,11 +2,11 @@ import { body, param, validationResult } from "express-validator";
 
 const userRules = [
 
-    body("name")
+    body("username")
         .trim()
-        .notEmpty().withMessage("El nombre es obligatorio")
-        .isLength({ min: 3 }).withMessage("El nombre debe tener al menos 3 caracteres")
-        .isString().withMessage("El nombre debe ser una cadena de texto"),
+        .notEmpty().withMessage("El nombre de usuario es obligatorio")
+        .isLength({ min: 3 }).withMessage("El nombre de usuario debe tener al menos 3 caracteres")
+        .isString().withMessage("El nombre de usuario debe ser una cadena de texto"),
 
     body("email")
         .trim()
