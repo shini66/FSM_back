@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import routerUser from "./routers/user.routes.js";
 import routerProduct from "./routers/product.routes.js";
+import routerAuth from "./routers/auth.routes.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use("/api", routerAuth);
 app.use("/api/users", routerUser);
 app.use("/api/products", routerProduct);
 
